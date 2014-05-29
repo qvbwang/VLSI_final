@@ -10,10 +10,10 @@
 module processor(clk, rst, mem_read, mem_write, mem_addr, mem_rdata, mem_wdata);
 
 	input clk, rst;
-	input [`RAM_WIDTH-1:0] mem_rdata;
+	input [`WORD_WIDTH-1:0] mem_rdata;
 	output mem_read, mem_write;
 	output [`WORD_WIDTH-1:0] mem_addr;
-	output [`RAM_WIDTH-1:0] mem_wdata;
+	output [`WORD_WIDTH-1:0] mem_wdata;
 	
 	wire [`WORD_WIDTH-1:0] pc_nowaddr, pc_nxtaddr;
 	wire [`WORD_WIDTH-1:0] ir_data, rs, rt, alu_result, reg_wdata;
@@ -28,8 +28,7 @@ module processor(clk, rst, mem_read, mem_write, mem_addr, mem_rdata, mem_wdata);
 					.pc_jumpaddr(pc_jumpaddr), .pc_nowaddr(pc_nowaddr), .pc_nxtaddr(pc_nxtaddr)
 					);
 	ir_mem IR (		.clk(clk), .rst(rst), 
-					.ir_addr(pc_nxtaddr), .ir_data(ir_data), 
-					.mem_addr(mem_addr), .mem_rdata(mem_rdata)
+					.ir_addr(pc_nxtaddr), .ir_data(ir_data)
 					);
 	
 //2nd stage
