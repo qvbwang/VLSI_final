@@ -11,7 +11,6 @@
 
 `define RAM_SIZE 128
 `define REG_SIZE 32
-`define PREFETCH_SIZE 4
 
 //boolean representation
 	`define TRUE 1'b1
@@ -45,6 +44,7 @@
 	`define LW 6'h23
 	`define SW 6'h2b
 	`define BEQ 6'h4
+	`define ADDI 6'h8
 	`define RTYPE 6'h0
 	
 //FUNCT
@@ -55,6 +55,7 @@
 //ALU_OP
 	`define ALUOP_LW 2'b00
 	`define ALUOP_SW 2'b00
+	`define ALUOP_ADDI 2'b00
 	`define ALUOP_BEQ 2'b01
 	`define ALUOP_RTYPE 2'b10
 	
