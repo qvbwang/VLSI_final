@@ -7,7 +7,7 @@ module DMemory(clk, rst ,mem_write, mem_read, mem_addr, mem_wdata, mem_rdata);
 	input [`WORD_WIDTH-1:0] mem_wdata;
 	output [`WORD_WIDTH-1:0] mem_rdata;
 
-	reg [`WORD_WIDTH-1:0] mem[`MEM_WIDTH-1:0];
+	reg [`WORD_WIDTH-1:0] mem[0:`MEM_WIDTH-1];
 	reg [`WORD_WIDTH-1:0] temp;
 	reg [`ADDR_WIDTH-1:0] i;
 	
