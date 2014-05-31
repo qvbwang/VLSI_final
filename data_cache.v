@@ -1,15 +1,15 @@
 `include "defines.v"
 
-module DMemory(clk, rst ,mem_write, mem_read, mem_addr, mem_wdata, mem_rdata);
+module data_cache(clk, rst ,mem_write, mem_read, mem_addr, mem_wdata, mem_rdata);
 
 	input clk, rst, mem_write, mem_read;
-	input [`ADDR_WIDTH-1:0] mem_addr;
+	input [`WORD_WIDTH-1:0] mem_addr;
 	input [`WORD_WIDTH-1:0] mem_wdata;
 	output [`WORD_WIDTH-1:0] mem_rdata;
 
 	reg [`WORD_WIDTH-1:0] mem[0:`MEM_WIDTH-1];
 	reg [`WORD_WIDTH-1:0] temp;
-	reg [`ADDR_WIDTH-1:0] i;
+	reg [`WORD_WIDTH-1:0] i;
 	
 	always@(posedge clk)
 	begin
