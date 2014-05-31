@@ -8,12 +8,10 @@
 `define IMM_WIDTH 16
 `define FUNCT_WIDTH 6
 `define SHAMT_WIDTH 5
+`define ALUFUNCT_WIDTH 5
 
 `define RAM_SIZE 128
 `define REG_SIZE 32
-
-`define MEM_WIDTH 1024
-`define ADDR_WIDTH 10
 
 //boolean representation
     `define TRUE 1'b1
@@ -64,13 +62,26 @@
     `define ALUOP_ADDI 2'b00
     `define ALUOP_BEQ 2'b01
     `define ALUOP_RTYPE 2'b10
+    `define ALUOP_ITYPE 2'b11
     
 //ALU_FUNCT
-    `define ALU_ADD 4'b0010
-    `define ALU_SUB 4'b0110
-    `define ALU_AND 4'b0000
-    `define ALU_OR 4'b0001
-    `define ALU_SLT 4'b0111
-    `define ALU_NOR 4'b1100
-    `define ALU_SLL 4'b0011 //custom
+    `define ALUFUNCT_SLL   5'b00000
+    `define ALUFUNCT_SRL   5'b00010
+
+    `define ALUFUNCT_MULT  5'b01000
+    `define ALUFUNCT_MULTU 5'b01001
+    `define ALUFUNCT_DIV   5'b01010
+    `define ALUFUNCT_DIVU  5'b01011
+
+    `define ALUFUNCT_ADD   5'b10000
+    `define ALUFUNCT_ADDU  5'b10001
+    `define ALUFUNCT_SUB   5'b10010
+    `define ALUFUNCT_SUBU  5'b10011
+    `define ALUFUNCT_AND   5'b10100
+    `define ALUFUNCT_OR    5'b10101
+    `define ALUFUNCT_XOR   5'b10110
+    `define ALUFUNCT_NOR   5'b10111
+
+    `define ALUFUNCT_SLT   5'b11010
+    `define ALUFUNCT_SLTU  5'b11011
     
