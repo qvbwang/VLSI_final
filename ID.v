@@ -1,12 +1,12 @@
-`define OPCODE  ir[31:26]
-`define RS      ir[25:21]
-`define RT	    ir[20:16]
-`define RD	    ir[15:11]
-`define SHAMT   ir[10: 6]
-`define FUNCT   ir[ 5: 0]
-`define OFFSET  ir[15: 0]
-`define ADDR    ir[25: 0]
-`define SIGNBIT ir[15]
+`define OPCODE   31:26
+`define RS       25:21
+`define RT	 20:16
+`define RD	 15:11
+`define SHAMT    10: 6
+`define FUNCT     5: 0
+`define OFFSET   15: 0
+`define ADDR     25: 0
+`define SIGNBIT  15
  
 `define WIDTH   32
 `define MAXREG  32
@@ -44,14 +44,14 @@ module ID(ir,wrt_dt,wrt_reg,reg_wrt,read_data1,read_data2,offset,rt,rd,opcode,sh
 
 	always@(ir)
 	begin
-		read_data1 = REG[`RS]; //glue logic => not good!
-		read_data2 = REG[`RT];
-	    offset = (`SIGNBIT==0)?{16'b0000_0000_0000_0000,`OFFSET}:{16'b1111_1111_1111_1111,`OFFSET}; //sign extend
-		rt     = `RT;
-	    rd     = `RD;
-		opcode = `OPCODE;
-		shamt  = `SHAMT;
-		funct  = `FUNCT;
+		read_data1 = REG[ir[`RS]]; //glue logic => not good!
+		read_data2 = REG[ir[`RT]];
+	    	offset = (ir[`SIGNBIT]==0)?{16'b0000_0000_0000_0000,ir[`OFFSET]}:{16'b1111_1111_1111_1111,ir[`OFFSET]}; //sign extend
+		rt     = ir[`RT];
+	    	rd     = ir[`RD];
+		opcode = ir[`OPCODE];
+		shamt  = ir[`SHAMT];
+		funct  = ir[`FUNCT];
 	end
 	
 	always@(wrt_dt or wrt_reg or reg_wrt)
