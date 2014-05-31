@@ -122,13 +122,14 @@ module processor(clk, rst, mem_read, mem_write, mem_addr, mem_rdata, mem_wdata);
     //internal wire
     wire [`WORD_WIDTH-1:0] alu_src1EX = reg_rsEX;
     wire [`WORD_WIDTH-1:0] alu_src2EX = (alu_srcEX == `FROM_IMM) ? immediateEX : reg_rtEX;
-    wire [3:0] alu_functionEX; // hard code!
-    
+    wire [4:0] alu_functionEX; // hard code!
+    wire alu_sel;
+ 
     //instances
-    alu_ctrl ALU_CTRL ( .ir_funct(ir_dataEX[`FUNCT]), .alu_op(alu_opEX), 
-                        .alu_function(alu_functionEX)
+    alu_ctrl ALU_CTRL ( .ir_funct(ir_dataEX[`FUNCT]), .ir_op4bit(ir_dataEX[29:26]), .alu_op(alu_opEX), 
+                        .alu_function(alu_functionEX), .alu_sel(alu_selEX)
                         );
-    alu ALU (   .alu_function(alu_functionEX), 
+    alu ALU (   .alu_function(alu_functionEX), .alu_sel(alu_selEX),
                 .alu_src1(alu_src1EX), .alu_src2(alu_src2EX), .shamt(ir_dataEX[`SHAMT]), 
                 .alu_result(alu_resultEX), .alu_zero(alu_zeroEX)
                 );
