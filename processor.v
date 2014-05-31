@@ -5,7 +5,7 @@
 `include "ctrl.v"
 `include "ir_cache.v"
 `include "prog_count.v"
-`include "register.v"
+`include "ID.v"
 `include "data_cache.v"
 
 module processor(clk, rst, mem_read, mem_write, mem_addr, mem_rdata, mem_wdata);
@@ -50,7 +50,7 @@ module processor(clk, rst, mem_read, mem_write, mem_addr, mem_rdata, mem_wdata);
     wire [`WORD_WIDTH-1:0] reg_rsID, reg_rtID;
     wire [1:0] alu_opID; // hard code!
     wire reg_dstID, alu_srcID, branchID, mem_readID, mem_writeID, reg_srcID, reg_writeID;
-    wire [`WORD_WIDTH-1:0] immediateID = {{(`WORD_WIDTH-`IMM_WIDTH){ir_dataID[`IMM_WIDTH-1]}}, ir_dataID[`IMM]};
+    wire [`WORD_WIDTH-1:0] immediateID;
     
     // Pipeline register
     always@(posedge clk or posedge rst) begin : IF_ID
@@ -70,11 +70,9 @@ module processor(clk, rst, mem_read, mem_write, mem_addr, mem_rdata, mem_wdata);
     reg reg_writeFB; // feedback from 5th stage
     
     //instances
-    register REG (  .clk(clk), .rst(rst), 
-                    .reg_write(reg_writeFB),
-                    .reg_addr1(ir_dataID[`RS]), .reg_addr2(ir_dataID[`RT]), .reg_waddr(reg_waddrFB),
-                    .reg_data1(reg_rsID), .reg_data2(reg_rtID), .reg_wdata(reg_wdataFB)
-                    );
+    ID ID (         .ir(ir_dataID),
+                    .wrt_dt(reg_wdataFB),.wrt_reg(reg_waddrFB),.reg_wrt(reg_writeFB),
+                    .read_data1(reg_rsID),.read_data2(reg_rtID),.offset(immediateID));
     ctrl CTRL (         .ir_opcode(ir_dataID[`OPCODE]), 
                 /*EX*/  .reg_dst(reg_dstID), .alu_src(alu_srcID), .alu_op(alu_opID), 
                 /*M*/   .branch(branchID), .mem_read(mem_readID), .mem_write(mem_writeID), 
