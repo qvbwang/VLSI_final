@@ -35,7 +35,7 @@ module ID(ir,wrt_dt,wrt_reg,reg_wrt,read_data1,read_data2,offset,rt,rd,opcode,sh
 	reg    [`SHAMT_WIDTH-1: 0] shamt;
 	reg    [`FUNCT_WIDTH-1: 0] funct;
 		
-	reg    [`WORD_WIDTH-1:  0] REG[`REG_SIZE-1:0];
+	reg    [`WORD_WIDTH-1:  0] REG[0:`REG_SIZE-1];
 
 	initial
 	begin
