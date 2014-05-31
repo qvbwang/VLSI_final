@@ -41,8 +41,10 @@
     `define RD 15:11
     `define SHAMT 10:6
     `define FUNCT 5:0
+    `define OFFSET   15: 0
     `define IMM 15:0
     `define ADDR 25:0
+	`define SIGNBIT  15
 
 //OPCODE
     `define LW 6'h23
