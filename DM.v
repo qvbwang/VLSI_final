@@ -1,8 +1,5 @@
 `include "defines.v"
 
-`define MEM_WIDTH 1024
-`define ADDR_WIDTH 10
-
 module DMemory(clk, rst ,mem_write, mem_read, mem_addr, mem_wdata, mem_rdata);
 
 	input clk, rst, mem_write, mem_read;
