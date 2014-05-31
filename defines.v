@@ -12,6 +12,9 @@
 `define RAM_SIZE 128
 `define REG_SIZE 32
 
+`define MEM_WIDTH 1024
+`define ADDR_WIDTH 10
+
 //boolean representation
     `define TRUE 1'b1
     `define FALSE 1'b0
