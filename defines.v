@@ -10,8 +10,10 @@
 `define SHAMT_WIDTH 5
 `define ALUFUNCT_WIDTH 5
 
-`define RAM_SIZE 128
+`define RAM_SIZE 512
 `define REG_SIZE 32
+
+`define PC_INIT 32'h0
 
 //boolean representation
     `define TRUE 1'b1
@@ -39,20 +41,24 @@
     `define RD 15:11
     `define SHAMT 10:6
     `define FUNCT 5:0
-    `define OFFSET   15: 0
+    `define OFFSET 15: 0
     `define IMM 15:0
     `define ADDR 25:0
-	`define SIGNBIT  15
+	`define SIGNBIT 15
 
 //OPCODE
     `define LW 6'h23
     `define SW 6'h2b
     `define BEQ 6'h4
     `define ADDI 6'h8
-    `define RTYPE 6'h0
+    `define ANDI 6'h0c
+    `define ORI 6'h0d
+    `define RTYPE 6'h00
     
-//FUNCT
+//RTYPE FUNCT
     `define ADD 6'h20
+    `define OR 6'h25
+    `define AND 6'h24
     `define SUB 6'h22
     `define SLL 6'h00
 
