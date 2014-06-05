@@ -1,13 +1,6 @@
 `include "defines.v"
 
-`ifdef SYN
-	`include "processor_syn.v"
-	`include "tsmc18.v"
-`else
-	`include "processor.v"
-`endif
-
-//`include "ram.v"
+`include "processor.v"
 
 `timescale 1ns/1ps
 module testbench;
