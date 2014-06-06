@@ -7,6 +7,7 @@
 `include "prog_count.v"
 `include "register.v"
 `include "data_cache.v"
+`include "forward.v"
 
 module processor(clk, rst, mem_read, mem_write, mem_addr, mem_rdata, mem_wdata);
 
@@ -51,6 +52,8 @@ module processor(clk, rst, mem_read, mem_write, mem_addr, mem_rdata, mem_wdata);
     wire [1:0] alu_opID; // hard code!
     wire reg_dstID, alu_srcID, branchID, mem_readID, mem_writeID, reg_srcID, reg_writeID;
     wire [`WORD_WIDTH-1:0] immediateID = {{(`WORD_WIDTH-`IMM_WIDTH){ir_dataID[`IMM_WIDTH-1]}}, ir_dataID[`IMM]};
+    wire [`REGADDR_WIDTH-1:0] src1_addrID= ir_dataID[`RS];
+    wire [`REGADDR_WIDTH-1:0] src2_addrID= ir_dataID[`RT];
     
     // Pipeline register
     always@(posedge clk or posedge rst) begin : IF_ID
@@ -95,6 +98,8 @@ module processor(clk, rst, mem_read, mem_write, mem_addr, mem_rdata, mem_wdata);
     // Signals from previous stage and to next stage
     reg [`WORD_WIDTH-1:0] reg_rtEX;
     reg branchEX, mem_readEX, mem_writeEX, reg_writeEX, reg_srcEX;
+    reg [`REGADDR_WIDTH-1:0] src1_addrEX;
+    reg [`REGADDR_WIDTH-1:0] src2_addrEX;
     
     // New signals to next stage
     wire [`WORD_WIDTH-1:0] alu_resultEX;
@@ -117,11 +122,18 @@ module processor(clk, rst, mem_read, mem_write, mem_addr, mem_rdata, mem_wdata);
         mem_readEX <= mem_readID;
         mem_writeEX <= mem_writeID;
         reg_srcEX <= reg_srcID;
+        src1_addrEX<=src1_addrID;
+        src2_addrEX<=src2_addrID;
     end
     
     //internal wire
-    wire [`WORD_WIDTH-1:0] alu_src1EX = reg_rsEX;
-    wire [`WORD_WIDTH-1:0] alu_src2EX = (alu_srcEX == `FROM_IMM) ? immediateEX : reg_rtEX;
+	wire is_ForwordA;
+	wire sel_ForwordA;
+	wire is_ForwordB;
+	wire sel_ForwordB;
+    wire [`WORD_WIDTH-1:0] alu_src1EX = is_ForwordA ?(sel_ForwordA ? alu_resultMEM:reg_wdataFB):reg_rsEX;
+    wire [`WORD_WIDTH-1:0] alu_src2EX = is_ForwordB ?(sel_ForwordB ? alu_resultMEM:reg_wdataFB):
+                                        (alu_srcEX == `FROM_IMM) ? immediateEX : reg_rtEX;
     wire [4:0] alu_functionEX; // hard code!
     wire alu_sel;
  
@@ -133,6 +145,10 @@ module processor(clk, rst, mem_read, mem_write, mem_addr, mem_rdata, mem_wdata);
                 .alu_src1(alu_src1EX), .alu_src2(alu_src2EX), .shamt(ir_dataEX[`SHAMT]), 
                 .alu_result(alu_resultEX), .alu_zero(alu_zeroEX)
                 );
+    forward FU(  .src1_addrEX(src1_addrEX), .src2_addrEX(src2_addrEX), .reg_writeMEM(reg_writeMEM),
+                 .reg_waddrMEM(reg_waddrMEM), .reg_writeFB(reg_writeFB), .reg_waddrFB(reg_waddrFB),
+			     .is_ForwordA(is_ForwordA), .sel_ForwordA(sel_ForwordA), .is_ForwordB(is_ForwordB),
+				 .sel_ForwordB(sel_ForwordB) );
     //===========================================================================================================
 
     //===========================================================================================================
