@@ -6,6 +6,7 @@
 *[140604] make some pipeline flushable and stallable
 *[140604] move feedback pc_jumpaddrFB, pc_srcFB earlier to 3rd stage.
 *         So branch taken will have penalty of 2 cycles
+*[140607] bug fixed : Stall IF will lost one instruction
 */
 
 `include "alu.v"
@@ -47,16 +48,17 @@ module processor(clk, rst, mem_read, mem_write, mem_addr, mem_rdata, mem_wdata);
     //1st stage(IF)
     //-----------------------------------------------------------------------------------------------------------
     // Signals to next stage
-    wire [`WORD_WIDTH-1:0] pc_nxtaddrIF;
+    wire [`WORD_WIDTH-1:0] pc_nowaddrIF, pc_nxtaddrIF;
     wire [`WORD_WIDTH-1:0] ir_dataIF;
     
     //internal wire
-    wire [`WORD_WIDTH-1:0] ir_addrIF = (pc_srcFB==`PC_JUMP && pc_nxtaddrIF!=`PC_INIT) ? pc_jumpaddrFB : pc_nxtaddrIF;
+    wire [`WORD_WIDTH-1:0] ir_addrIF =  stall_IF ?                                          pc_nowaddrIF : 
+                                        (pc_srcFB==`PC_JUMP && pc_nxtaddrIF!=`PC_INIT) ?    pc_jumpaddrFB : pc_nxtaddrIF;
     
     //instances
     prog_count PC ( .clk(clk), .rst(rst), 
                     .stall(stall_IF), .pc_src(pc_srcFB), 
-                    .jumpaddr(pc_jumpaddrFB), .nxtaddr(pc_nxtaddrIF)
+                    .jumpaddr(pc_jumpaddrFB), .nowaddr(pc_nowaddrIF), .nxtaddr(pc_nxtaddrIF)
                     );
     ir_cache I_CACHE (  .clk(clk), .rst(rst), 
                         .ir_addr(ir_addrIF), .ir_data(ir_dataIF)
