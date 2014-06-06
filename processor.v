@@ -127,10 +127,10 @@ module processor(clk, rst, mem_read, mem_write, mem_addr, mem_rdata, mem_wdata);
     end
     
     //internal wire
-	wire is_ForwordA;
-	wire sel_ForwordA;
-	wire is_ForwordB;
-	wire sel_ForwordB;
+    wire is_ForwordA;
+    wire sel_ForwordA;
+    wire is_ForwordB;
+    wire sel_ForwordB;
     wire [`WORD_WIDTH-1:0] alu_src1EX = is_ForwordA ?(sel_ForwordA ? alu_resultMEM:reg_wdataFB):reg_rsEX;
     wire [`WORD_WIDTH-1:0] alu_src2EX = is_ForwordB ?(sel_ForwordB ? alu_resultMEM:reg_wdataFB):
                                         (alu_srcEX == `FROM_IMM) ? immediateEX : reg_rtEX;
@@ -147,8 +147,8 @@ module processor(clk, rst, mem_read, mem_write, mem_addr, mem_rdata, mem_wdata);
                 );
     forward FU(  .src1_addrEX(src1_addrEX), .src2_addrEX(src2_addrEX), .reg_writeMEM(reg_writeMEM),
                  .reg_waddrMEM(reg_waddrMEM), .reg_writeFB(reg_writeFB), .reg_waddrFB(reg_waddrFB),
-			     .is_ForwordA(is_ForwordA), .sel_ForwordA(sel_ForwordA), .is_ForwordB(is_ForwordB),
-				 .sel_ForwordB(sel_ForwordB) );
+                 .is_ForwordA(is_ForwordA), .sel_ForwordA(sel_ForwordA), .is_ForwordB(is_ForwordB),
+	         .sel_ForwordB(sel_ForwordB) );
     //===========================================================================================================
 
     //===========================================================================================================
