@@ -4,7 +4,7 @@ module forward(  src1_addrEX,src2_addrEX,reg_writeMEM,reg_waddrMEM,
 	
     //input output list
     //-----------------------------------------------------------------------------------------------------------	
-    input [`REGADDR_WIDTH-1:0]src1_addrEX;
+        input [`REGADDR_WIDTH-1:0]src1_addrEX;
 	input [`REGADDR_WIDTH-1:0]src2_addrEX;
 	input reg_writeMEM;
 	input [`REGADDR_WIDTH-1:0]reg_waddrMEM;
@@ -16,7 +16,7 @@ module forward(  src1_addrEX,src2_addrEX,reg_writeMEM,reg_waddrMEM,
 	output reg is_ForwordB;
 	output reg sel_ForwordB;
 	
-	//===========================================================================================================
+    //===========================================================================================================
     //forwarding seletion for src1
     //-----------------------------------------------------------------------------------------------------------
 	always@(src1_addrEX,reg_writeMEM,reg_waddrMEM,reg_writeFB,reg_waddrFB)begin
@@ -35,7 +35,7 @@ module forward(  src1_addrEX,src2_addrEX,reg_writeMEM,reg_waddrMEM,
 	end
     //===========================================================================================================
 	
-	//===========================================================================================================
+    //===========================================================================================================
     //forwarding seletion for src2
     //-----------------------------------------------------------------------------------------------------------
 	always@(src2_addrEX,reg_writeMEM,reg_waddrMEM,reg_writeFB,reg_waddrFB)begin
@@ -52,6 +52,6 @@ module forward(  src1_addrEX,src2_addrEX,reg_writeMEM,reg_waddrMEM,
 			sel_ForwordB=0;
 		end
 	end
-	//===========================================================================================================
+    //===========================================================================================================
 	
 endmodule
